@@ -1,19 +1,37 @@
 import './App.css'
-import { useState, useEffect } from 'react'
-import filmInfo from './movie-slides'
-import Navigation from './navigation'
+import SlideShow from './slideshow';
+import { useEffect, useState } from "react";
 
 function App() {
-  // const [slide, setSlide] = useState(0);
-  // useEffect(() => {
-  // });
+  const [data, setData] = useState(null);
+  const getData = () => {
+    fetch('film-data.json'
+      , {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }
+      }
+    )
+      .then(function (response) {
+        console.log(response)
+        return response.json();
+      })
+      .then(function (myJson) {
+        console.log(myJson);
+        setData(myJson)
+      });
+  }
+
+  useEffect(() => {
+    getData()
+  }, [])
+  console.log(data)
   return (
-    <div className="slides-app">
-      <h1>slideshow component</h1>
-      {/* <button onClick={() => setSlide(slide + 1)}>Next Card</button> */}
-      <filmInfo />
-      <Navigation />
-    </div>
+    <div className="slides" >
+      <h1>Movie SlideShow</h1>
+      {data ? <SlideShow films={data} /> : <h2>Loading, Please Wait</h2>}
+    </div >
   )
 }
 
