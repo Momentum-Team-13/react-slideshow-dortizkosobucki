@@ -1,3 +1,9 @@
 body {
     background-color: aqua;
 }
+
+.movie-card {
+    height: max-content;
+    width: fit-content;
+    background-color: beige;
+}
